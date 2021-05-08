@@ -139,7 +139,6 @@ class Test(unittest.TestCase):
         result,d=self.m.minimumPathBF(A,B)
         expepcted=['A','B']
         d_expected=7
-        
         self.assertEqual(d,d_expected)
         self.assertEqual(result,expepcted)
         
@@ -236,8 +235,112 @@ class Test(unittest.TestCase):
         
         self.assertEqual(d,d_expected)
         self.assertEqual(result,expepcted)
-        print('****** OK test9_minimumPathBF ******************')
+        print('****** OK test10_minimumPathBF ******************')
+    
+    def test10_minimumPathFW(self):
+        print("\n----------------- test10_minimumPathFW ALGORITMO Floyd Warshall (A,B) -----------")
+        A=self.m.centers[0]
+        B=self.m.centers[1]
+        result,d=self.m.minimumPathFW(A,B)
+        expepcted=['A','B']
+        d_expected=7
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        
+        result,d=self.m.minimumPathFW(B,A)
+        expepcted=['B','A']
+        d_expected=7
+        
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        print('****** OK test10_minimumPathFW ******************')
 
+   
+    
+    def test11_minimumPathFW(self):
+        print("\n----------------- test11_minimumPathBF: ALGORITMO Floyd Warshall  (A,E) -----------")
+        A=self.m.centers[0]
+        E=self.m.centers[4]
+        
+        result,d=self.m.minimumPathFW(A,E)
+        expepcted=['A', 'C', 'F', 'E']
+        d_expected=20
+        
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        
+        result,d=self.m.minimumPathFW(E,A)
+        expepcted=['E', 'F', 'C', 'A']
+        
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        print('****** OK test11minimumPathFW ******************')
+
+                
+    def test12_minimumPathFW(self):
+        print("\n----------------- test12_minimumPathFW: ALGORITMO Floyd Warshall  (A,F) -----------")
+        A=self.m.centers[0]
+        F=self.m.centers[5]
+        
+        result,d=self.m.minimumPathFW(A,F)
+        
+        expepcted=['A', 'C', 'F']
+        d_expected=11
+        
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        
+        result,d=self.m.minimumPathFW(F,A)
+        expepcted=['F', 'C', 'A']
+        
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        print('****** OK test12_minimumPathFW ******************')
+
+        
+    def test13_minimumPathFW(self):
+        print("\n----------------- test13_minimumPathFW: ALGORITMO Floyd Warshall  (B,E) -----------")
+        B=self.m.centers[1]
+        E=self.m.centers[4]
+        
+        result,d=self.m.minimumPathFW(B,E)
+        
+        expepcted=['B', 'C', 'F', 'E']
+        d_expected=21
+        
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        
+        result,d=self.m.minimumPathFW(E,B)
+
+        expepcted=['E', 'F', 'C', 'B']
+        
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        print('****** OK test13_minimumPathFW ******************')
+
+    
+    
+    def test14_minimumPathFW(self):
+        print("\n----------------- test14_minimumPathFW: ALGORITMO Floyd Warshall  (D,F) -----------")
+        D=self.m.centers[3]
+        F=self.m.centers[5]
+        
+        result,d=self.m.minimumPathFW(D,F)
+        
+        expepcted=['D', 'C', 'F']
+        d_expected=13
+        
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        
+        result,d=self.m.minimumPathFW(F,D)
+
+        expepcted=['F', 'C', 'D']
+        
+        self.assertEqual(d,d_expected)
+        self.assertEqual(result,expepcted)
+        print('****** OK test13_minimumPathFW ******************')
  
 #Descomenar para usarlo en Spyder
 if __name__ == '__main__':
