@@ -5,6 +5,11 @@ Created on Sun Mar 29 20:49:06 2020
 
 @author: isegura
 """
+"""
+Developed by: 
+- Gonzalo Pato Montemayor, 100429860, group 121
+- Gonzalo Prats Juliani, 100429904, group 121
+"""
 import sys
 
 
@@ -54,7 +59,7 @@ class Map():
     
        
     def addConnection(self,center1,center2,distance):
-        #print('new conexion:',pto1,pto2)
+        #print('new conexion:',center1,center2)
         index1=self._getIndice(center1)
         index2=self._getIndice(center2)
         if index1==-1:
@@ -64,7 +69,7 @@ class Map():
             print(center2,' not found!!')
             return 
         self.vertices[index1].append(AdjacentVertex(index2,distance))
-        #print('adding:',index2,index1,distancia)
+        #print('adding:',index2,index1,distance)
         self.vertices[index2].append(AdjacentVertex(index1,distance))
 
         
@@ -112,7 +117,9 @@ class Map():
         #print('dfs traversal:')
         # Mark all the vertices as not visited 
         visited = [False] * len(self.vertices)
-
+        """for i in len(self.vertices)
+            visited.append(False)
+        """
         paths=[]
         for v in  self.vertices:
             if visited[v]==False:
@@ -222,10 +229,10 @@ class Map():
         minimum_path=[]
         prev=previous[indexEnd]
         while prev!=-1:
-            minimum_path.insert(0,self.centers[prev])
+            minimum_path.insert(0,str(self.centers[prev]))
             prev=previous[prev]
-            
-        minimum_path.append(self.centers[indexEnd])
+
+        minimum_path.append(str(self.centers[indexEnd]))
         return minimum_path, distances[indexEnd]
     
     
@@ -234,19 +241,115 @@ class Map():
          Bellman-Ford. Puedes implementar otras funciones auxiliares si lo consideras necesario """
         minimum_path=[]
         minimumDistance=0
-        ... 
+
+        # Get start and end indices
+        S = self._getIndice(start)
+        E = self._getIndice(end)
+
+        # Check if they exist in the list
+        if S == -1:
+            print("No health center named {} in the map." .format(start))
+            return minimum_path, minimumDistance
+        if E == -1:
+            print("No health center named {} in the map." .format(end))
+            return minimum_path, minimumDistance
+            
+        print("Finding path from {} to {}" .format(self.centers[S], self.centers[E]))
+        
+        # Initialize d and p
+        d = []
+        p = []
+        for i in range(len(self.centers)):
+            d.append(sys.maxsize)
+            p.append(None)
+        d[S] = 0  # d[start] = 0
+        
+        for i in range(1, len(self.centers)):  # Loop from 1 to |V| - 1
+            for u in self.centers.keys():  # For each u
+                for v in self.vertices[u]:  # For each (u,v)
+                    if d[v.vertex] > d[u] + v.weight:  # Update if necessary
+                        d[v.vertex] = d[u] + v.weight
+                        p[v.vertex] = u
+        
+        for u in self.centers.keys():  # Check convergence
+            for v in self.vertices[u]:
+                if d[v.vertex] > d[u] + v.weight:
+                    return False, 'the algorithm does not converge'
+        
+        minimumDistance = d[E] # minimum distance to the last vertex
+        if minimumDistance == sys.maxsize:  # If == inf, there's no path
+            # It should not happen, as the graph is undirected
+            print("There's no path between {} {}" .format(start, end))
+            return minimum_path, minimumDistance
+        # Introduce one by one the vertices that create the shortest path
+        minimum_path.insert(0, str(end))
+        prev = p[E]  # Previous of end
+        while prev is not None:
+            minimum_path.insert(0, str(self.centers[prev])) # insert at 0
+            prev = p[prev]
         
         return minimum_path, minimumDistance
         
+        # O(|V||E|) as you have to once through all vertices (|V|-1) and 
+        # inside the loop 2*all the edges in the graph (for each u, (u,v))
+        # while doing simple operations
 
     def minimumPathFW(self,start,end):
         """"calcula y devuelve la ruta mínima entre start y end, aplicando el algoritmo de 
          Floyd-Warshall. Puedes implementar otras funciones auxiliares si lo consideras necesario"""
         minimum_path=[]
         minimumDistance=0
-        ... 
+        # Get start and end indices
+        S = self._getIndice(start)
+        E = self._getIndice(end)
+
+        # Check if they exist in the list
+        if S == -1:
+            print("No health center named {} in the map." .format(start))
+            return minimum_path, minimumDistance
+        if E == -1:
+            print("No health center named {} in the map." .format(end))
+            return minimum_path, minimumDistance
+            
+        print("Finding path from {} to {}" .format(self.centers[S], self.centers[E]))
+
+        # Initialize D and P
+        D = [ [ sys.maxsize for i in range(len(self.centers)) ] for j in range(len(self.centers)) ]
+        P = [ [ None for i in range(len(self.centers)) ] for j in range(len(self.centers)) ]
+
+        for i in self.centers.keys():
+            D[i][i] = 0 # distance to an element from itself (main diagonal)
+            # And now set the distances from one element to another
+            for k in self.vertices[i]:
+                D[i][k.vertex] = k.weight
+                P[i][k.vertex] = i
+
+        for k in range(len(self.centers)): # loop from 0 to |V| - 1
+            for i in range(len(self.centers)):
+                for j in range(len(self.centers)):
+                    res = D[i][k] + D[k][j]
+                    if res < D[i][j]: # update if necessary
+                        D[i][j] = res
+                        P[i][j] = P[k][j]
+
+        minimumDistance = D[S][E] # minimum distance to the last vertex
         
+        if minimumDistance == sys.maxsize:  # If == inf, there's no path
+            # It should not happen, as the graph is undirected
+            print("There's no path between {} {}" .format(start, end))
+            return minimum_path, minimumDistance
+        
+        # Introduce one by one the vertices that create the shortest path
+        minimum_path.insert(0, str(end))
+        prev = P[S][E] # From start to end through the node prev
+        while prev is not None:
+            minimum_path.insert(0, str(self.centers[prev])) # insert at positon 0
+            prev = P[S][prev] # From start to the previous of end
+
         return minimum_path, minimumDistance
+
+        # O(|V|^3) since we are using a triple nested loop for the implementation
+
 
 def test():
     #https://www.bogotobogo.com/python/images/Dijkstra/graph_diagram.png
