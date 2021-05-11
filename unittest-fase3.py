@@ -150,7 +150,6 @@ class Test(unittest.TestCase):
         self.assertEqual(result,expepcted)
         print('****** OK test5_minimumPathBF ******************')
 
-   
     
     def test6_minimumPathBF(self):
         print("\n----------------- test6_minimumPathBF: ALGORITMO Bellman Ford  (A,E) -----------")
@@ -215,7 +214,6 @@ class Test(unittest.TestCase):
         print('****** OK test8_minimumPathBF ******************')
 
     
-    
     def test9_minimumPathBF(self):
         print("\n----------------- test9_minimumPathBF: ALGORITMO Bellman Ford  (D,F) -----------")
         D=self.m.centers[3]
@@ -237,6 +235,7 @@ class Test(unittest.TestCase):
         self.assertEqual(result,expepcted)
         print('****** OK test10_minimumPathBF ******************')
     
+
     def test10_minimumPathFW(self):
         print("\n----------------- test10_minimumPathFW ALGORITMO Floyd Warshall (A,B) -----------")
         A=self.m.centers[0]
@@ -255,8 +254,6 @@ class Test(unittest.TestCase):
         self.assertEqual(result,expepcted)
         print('****** OK test10_minimumPathFW ******************')
 
-   
-    
     def test11_minimumPathFW(self):
         print("\n----------------- test11_minimumPathBF: ALGORITMO Floyd Warshall  (A,E) -----------")
         A=self.m.centers[0]
@@ -319,8 +316,6 @@ class Test(unittest.TestCase):
         self.assertEqual(result,expepcted)
         print('****** OK test13_minimumPathFW ******************')
 
-    
-    
     def test14_minimumPathFW(self):
         print("\n----------------- test14_minimumPathFW: ALGORITMO Floyd Warshall  (D,F) -----------")
         D=self.m.centers[3]
@@ -340,7 +335,7 @@ class Test(unittest.TestCase):
         
         self.assertEqual(d,d_expected)
         self.assertEqual(result,expepcted)
-        print('****** OK test13_minimumPathFW ******************')
+        print('****** OK test14_minimumPathFW ******************')
  
 #Descomenar para usarlo en Spyder
 if __name__ == '__main__':
